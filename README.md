@@ -10,12 +10,11 @@ For our foundational goals, we want to model the vertex coloring problem in Allo
 
 We will use Alloy to impose constraints and enforce coloring rules, and use Sterling to visualize our model. The model will be able to check if a valid k-coloring exists for a graph. For smaller graphs, we will also use the model to explore chromatic number and instances of distinct colorings. Using check and assert, we will also use the model to prove different families of graphs (trees, cyclic, acyclic, etc) and if they are k-colorable. We will take note of all types of graphs that are not k-colorable and give a description on why.
 
+We will also model the greedy algorithm for the vertex coloring problem using Alloy. By modeling time and process, Alloy models how the algorithm picks and colors nodes, and we will observe how the coloring evolves. We will verify correctness at different steps of the model to check if the algorithm works as expected. The model can also help answer questions such as: How does visiting order affect the algorithm’s outcome?
 
 ## Target
 Our target goal will be to extend our vertex coloring model and create a model of the edge coloring problem in Alloy. We will show whether or not a given graph can be colored such that no two adjacent edges have the same color. This problem has similarities to the vertex coloring problem, which is why we chose it as a target goal. It builds off of the results we will find in our foundational model, but is a separate algorithm that we would also like to explore. We will prove important graph coloring properties, such as the chromatic index of a graph is either Δ or Δ+1 (Δ is max degree of a graph).
 
-We will also model the greedy algorithm for the vertex coloring problem using Alloy. By modeling time and process, Alloy models how the algorithm picks and colors nodes, and we will observe how the coloring evolves. We will verify correctness at different steps of the model to check if the algorithm works as expected. The model can also help answer questions such as: How does visiting order affect the algorithm’s outcome?
 
-
-##Reach
+## Reach
 As a reach goal, we will attempt to use Alloy to find a Hamiltonian cycle for a given graph. These are cycles which go through every vertex of a graph only once. Through our implementation we will learn more about what types of graphs contain these cycles, which do not, and what characteristics cause a graph to contain a Hamiltonian cycle. We are using this as our reach goal since there is currently no efficient algorithm that can find a Hamiltonian cycle in all types of graphs. This means we will have to make choices about what algorithm we use, consider each one’s runtime, and possibly only look at smaller graphs or implement more than one algorithm. 
