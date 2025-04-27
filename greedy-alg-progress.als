@@ -1,29 +1,31 @@
 
 sig Node{
 	edges: set Node,
-	var color: one Color,
+	var color: lone Color,
 }
 
 abstract sig Color{}
 
-one sig Red, Orange, Yellow, Green, Blue, Purple, Uncolored extends Color {}
+lone sig Red, Orange, Yellow, Green, Blue, Purple extends Color {}
 
 
 pred init {
-	all n: Node | n.color = Uncolored
+	no Node.color
 }
 
 
 ------transition predicates ---------
 
 pred color_a_node(n: Node){
-	n.color = Uncolored
-	n.color' != Uncolored
-	all nodes: n.edges | (nodes.color != Uncolored) => (n'.color != nodes.color)
+	no n.color
+	some n.color'
+	(some n.edges.color) => (n.color' not in n.edges.color)
+	--all nodes: n.edges | (some nodes.color) => (n.color' != nodes.color)
+	all m: (Node - n) |m.color' = m.color
 }
 
 pred doNothing(n: Node){
-	n.color = n'.color
+	n.color = n.color'
 }
 
 ---valid traces fact---
@@ -33,13 +35,12 @@ fact validTraces{
 	always {
 		all n: Node | color_a_node[n] or doNothing[n]
 	}
-	eventually all nodes: Node | nodes.color != Uncolored
+	eventually all nodes: Node |some nodes.color
+	--eventually some n: Node | all c: Color | n.color = c
 }
 
 fact noSelfLoops{
 	no (iden & edges)
 }
 
-run {} for exactly 4 Node
-
-
+run {} for exactly 5 Node
