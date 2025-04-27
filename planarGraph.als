@@ -1,20 +1,52 @@
-open util/integer
-
-abstract sig Vertex {
-  var color: one Color,
-  edges: set Vertex
+sig Node {
+  edges: set Node,
+  var color: lone Color
 }
 
 abstract sig Color {}
-one sig Red, Green extends Color {}
+one sig Red, Orange, Yellow extends Color {}
+
+pred init {
+	no Node.color  
+}
+
+pred initialColoring[n: Node] {
+	no n.color       
+    
+	n.color' = Red or n.color' = Orange or n.color' = Yellow
+	all m: Node - n | m.color' = m.color    
+}
+
+pred color_a_node[n: Node] { // colors a node based on neighbors
+	no n.color  // Node is uncolored
+
+	(some n.edges.color => n.color' not in n.edges.color)
+
+	(no n.edges.color => (n.color' = Red or n.color' = Orange or n.color' = Yellow))
+
+ 	all m: Node - n | m.color' = m.color    
+}
+
+pred doNothing {
+	all n: Node | n.color' = n.color
+}
+
+fact validTraces {
+	init
+	always { 
+	    doNothing or
+	    (some n: Node | initialColoring[n]) or
+           (some n: Node | color_a_node[n])
+  	}
+}
 
 fact planarGraph { 
   no iden & edges // No self loops
   edges = ~edges // is Undirected graph
-  all v1, v2: Vertex | v1 in v2.^edges // no cycles
+  all v1, v2: Node | v1 in v2.^edges // connected
   
   // 3 conditions hold for planar graphs with 3 or more vertices
-  let v = #Vertex, e = #edges | (v) >= 3 implies {
+  let v = #Node, e = #edges | (v) >= 3 implies {
     // e ≤ 3v – 6
     (e) <= minus[mul[v, 3] , 6] 
     // f ≤ 2v – 4. f is for faces
@@ -25,14 +57,21 @@ fact planarGraph {
 }
 
 pred noCycle3[] { // Helper, ensures no cycles of 3 
-  no disj v1, v2, v3: Vertex | 
+  no disj v1, v2, v3: Node | 
     v1->v2 in edges and v2->v3 in edges and v3->v1 in edges
 }
 
-
-fact {
-  all n, m: Vertex | n->m in edges => n.color != m.color
+fact kcolorable {
+  always all n: Node | all m: n.edges | 
+    (some n.color and some m.color) => n.color != m.color
 }
 
+pred eventuallyAll {
+	eventually (all n: Node | some n.color) 
+}
 
-run {} for 8 Vertex 
+run {eventuallyAll} for exactly 8 Node
+
+
+
+
