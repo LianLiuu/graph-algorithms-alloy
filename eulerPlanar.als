@@ -8,12 +8,15 @@ abstract sig Vertex {
 abstract sig Color {}
 one sig Red, Green extends Color {}
 
-fact planarGraph {
+fact planarGraph { 
+-- This is a simplified version of a planar graph model
+-- it passes the Euler formula but accepts K3 and K5 graphs
+
   no iden & edges
   edges = ~edges
   all v1, v2: Vertex | v1 in v2.^edges
   
-  (#Vertex).gt[3] implies (#edges).lte[(#Vertex).mul[3] - 6]
+  (#Vertex) > 3 implies (#edges) <= minus[mul[#Vertex, 3] , 6]
 }
 
 
@@ -22,4 +25,4 @@ fact {
 }
 
 
-run {} for 4 Vertex 
+run {} for 5 Vertex 
