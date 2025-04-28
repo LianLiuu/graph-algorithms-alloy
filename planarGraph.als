@@ -11,19 +11,27 @@ pred init {
 }
 
 pred initialColoring[n: Node] {
+	// Node is uncolored 
 	no n.color       
     
+	// Set Node's color
 	n.color' = Red or n.color' = Orange or n.color' = Yellow
+
+	// Leave other Nodes unmodified
 	all m: Node - n | m.color' = m.color    
 }
 
-pred color_a_node[n: Node] { // colors a node based on neighbors
-	no n.color  // Node is uncolored
+pred color_a_node[n: Node] { // colors a Node based on neighbors
+	// Node is uncolored 
+	no n.color 
 
+	// Node's new color should not be the same as any neighbors
 	(some n.edges.color => n.color' not in n.edges.color)
 
+	// Any neighbors's color should not be the same as the Node's new color
 	(no n.edges.color => (n.color' = Red or n.color' = Orange or n.color' = Yellow))
 
+	// Leave other Nodes unmodified
  	all m: Node - n | m.color' = m.color    
 }
 
@@ -71,7 +79,3 @@ pred eventuallyAll {
 }
 
 run {eventuallyAll} for exactly 8 Node
-
-
-
-
