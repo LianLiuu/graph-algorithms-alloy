@@ -39,7 +39,10 @@ fact validTraces{
 	--eventually some n: Node | all c: Color | n.color = c
 }
 
-fact noSelfLoops{
+fact noSelfLoops_undirected{
+	-- undirected
+	edges = ~edges
+	-- no self loops
 	no (iden & edges)
 }
 
