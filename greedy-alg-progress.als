@@ -36,7 +36,8 @@ fact validTraces{
 		all n: Node | color_a_node[n] or doNothing[n]
 	}
 	eventually all nodes: Node |some nodes.color
-	--eventually some n: Node | all c: Color | n.color = c
+	-- this makes it so we only have colors in a graph if they're being used
+	eventually (all c: Color | some n: Node | n.color = c)
 }
 
 fact noSelfLoops_undirected{
