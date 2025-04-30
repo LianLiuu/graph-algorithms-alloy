@@ -8,7 +8,6 @@ abstract sig Color{}
 
 lone sig Red, Orange, Yellow, Green, Blue, Purple extends Color {}
 
-
 pred init {
 	no Node.color
 }
