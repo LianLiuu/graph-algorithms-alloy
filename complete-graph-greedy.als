@@ -13,11 +13,9 @@ fact isCompleteGraph {
   all disj n1, n2: Node | n2 in n1.edges
 }
 
-
 pred init {
   no Node.color  
 }
-
 
 fact validTraces {
   init

@@ -23,6 +23,11 @@ pred init {
   }
 }
 
+// comment out for directed graphs, works either way
+fact isUndirected {
+  all n1, n2: Node | n2 in n1.edge iff n1 in n2.edge
+}
+
 fact validTraces {
   init
   always {
@@ -33,8 +38,20 @@ fact validTraces {
   }
 }
 
-fact findsHamiltonianPathIfExists {
+fact findsHamiltonianCycleIfExists {
   eventually (Cycle.step = Done or Cycle.step = Fail)
+}
+
+assert findsValidCycle {
+  // ?
+  (Cycle.step = Done) => {}
+}
+
+check findsValidCycle for exactly 5 Node
+
+// used to generate valid cycle instances
+assert onlyValidCycles {
+  some c:Cycle | eventually c.step = Fail
 }
 
 ---- Transition predicates ----
