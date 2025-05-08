@@ -1,59 +1,7 @@
 open util/integer
 
 sig Node {
-  edges: set Node,
-  var color: lone Color
-}
-
-abstract sig Color {}
-one sig Red, Orange extends Color {}
-
-pred init {
-	no Node.color  
-}
-
-/*
-
-Models the greedy algorithm for graph coloring on a planar graph
-
-*/
-
-pred initialColoring[n: Node] {
-	// Node is uncolored 
-	no n.color       
-    
-	// Set Node's color
-	n.color' = Red or n.color' = Orange
-
-	// Leave other Nodes unmodified
-	all m: Node - n | m.color' = m.color    
-}
-
-pred color_a_node[n: Node] { // colors a Node based on neighbors
-	// Node is uncolored 
-	no n.color 
-
-	// Node's new color should not be the same as any neighbors
-	(some n.edges.color => n.color' not in n.edges.color)
-
-	// Any neighbors's color should not be the same as the Node's new color
-	(no n.edges.color => (n.color' = Red or n.color' = Orange))
-
-	// Leave other Nodes unmodified
- 	all m: Node - n | m.color' = m.color    
-}
-
-pred doNothing {
-	all n: Node | n.color' = n.color
-}
-
-fact validTraces {
-	init
-	always { 
-	    doNothing or
-	    (some n: Node | initialColoring[n]) or
-           (some n: Node | color_a_node[n])
-  	}
+  edges: set Node
 }
 
 fact planarGraph { 
@@ -77,13 +25,5 @@ pred noCycle3[] { // Helper, ensures no cycles of 3
     v1->v2 in edges and v2->v3 in edges and v3->v1 in edges
 }
 
-fact kcolorable {
-  always all n: Node | all m: n.edges | 
-    (some n.color and some m.color) => n.color != m.color
-}
 
-pred eventuallyAll {
-	eventually (all n: Node | some n.color) 
-}
-
-run {eventuallyAll} for exactly 8 Node, 9 Int
+run {} for exactly 4 Node, 9 Int
