@@ -1,4 +1,4 @@
-abstract sig Node {
+sig Node {
   edges: set Node
 }
 
@@ -10,17 +10,10 @@ sig Edge {
   var color: one Color
 }
 
-fact UndirectedTree {
-  // Undirected graph (edges are symmetric)
-  edges = ~edges
-  // Connected
-  all n, m: Node | n != m => n in m.^edges
-  // No self-loops
-  no iden & edges
-  // No cycles
-  all n, m: Node | 
-      let e = n->m + m->n | 
-          e in edges => e not in ^(edges - e) 
+fact undirectedConnected { 
+  no iden & edges // No self loops
+  edges = ~edges // is Undirected graph
+  all v1, v2: Node | v1 in v2.^edges // connected
 }
 
 fact {
@@ -38,4 +31,3 @@ fact EdgeColoringConstraints {
 }
 
 run {} for exactly 5 Node, exactly 4 Edge
-
