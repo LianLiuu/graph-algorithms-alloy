@@ -22,7 +22,10 @@ As a reach goal, we will attempt to use Alloy to find a Hamiltonian cycle for a 
 
 ## Tradeoffs and Limits
 One of the limitations of our model comes from our implementation of the greedy algorithm. We were not able to model the form that specifies that each node should be colored using the least used color that is available to it. As a result, our model is not guaranteed to find the optimal coloring, the one using a graph's chromatic number, every time. While in many cases it does, it's also completely possible for the greedy algorithm to use as many colors as there are nodes.
+
 The scope of our model only goes up to 10 nodes. Past this point, Alloy would take a long time to run. So we cannot prove anything past 10 nodes.
+
+For Hamiltonian graphs, our model can only ensure correctness for <= 7 nodes. For >=8 nodes, the model fails to find satisfying instances.
 
 
 ## Changed Goals
