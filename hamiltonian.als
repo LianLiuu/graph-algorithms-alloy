@@ -9,6 +9,7 @@ sig Node {
 } 
 
 one sig Cycle {
+  start: lone Node,
   var visited: set Node,
   var current: lone Node,
   var step: Step
@@ -20,6 +21,7 @@ pred init {
 	Cycle.visited = {n1}
 	Cycle.current = n1
 	Cycle.step = Init
+       Cycle.start = n1
   }
 }
 
@@ -43,16 +45,21 @@ fact findsHamiltonianCycleIfExists {
 }
 
 assert findsValidCycle {
-  // ?
-  (Cycle.step = Done) => {}
+  (Cycle.step = Done) => eventually {
+	 Cycle.start in Cycle.current.edge // path is cycle
+	#Cycle.visited = #Node // all node are visited once
+  }
 }
 
 check findsValidCycle for exactly 5 Node
 
-// used to generate valid cycle instances
-assert onlyValidCycles {
-  some c:Cycle | eventually c.step = Fail
+// generate valid cycle instances
+pred onlyValidCycles {
+  some c:Cycle | eventually c.step = Done
 }
+
+run onlyValidCycles for exactly 5 Node
+
 
 ---- Transition predicates ----
 
@@ -67,6 +74,7 @@ pred visitNode[c:Cycle] {
 
 pred markDone[c:Cycle] {
   #c.visited = #Node
+  Cycle.start in Cycle.current.edge
   c.step' = Done
   c.visited' = c.visited
   c.current' = c.current
@@ -81,5 +89,3 @@ pred markFail[c:Cycle] {
   c.current' = c.current
 }
 
-
-run {} for exactly 5 Node

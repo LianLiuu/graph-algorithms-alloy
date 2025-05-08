@@ -5,6 +5,8 @@ sig Node {
 
 abstract sig Color {}
 
+one sig red, orange, green, blue, yellow extends Color {}
+
 fact isCompleteGraph {
   // no self loop
   all n: Node | n not in n.edges
@@ -44,10 +46,10 @@ fact noSameColorNeighbors {
     some n.color and some m.color => n.color != m.color
 }
 
-run {eventuallyAll} for exactly 3 Node, exactly 10 Color
+run {eventuallyAll} for exactly 5 Node
 
 assert correctNumberOfColors {
   eventually #Node.color = #Node
 }
 
-run {eventuallyAll} for 20 Node, exactly 40 Color
+run {eventuallyAll} for 5 Node
