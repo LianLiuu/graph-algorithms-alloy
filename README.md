@@ -30,6 +30,7 @@ For Hamiltonian graphs, our model can only ensure correctness for <= 7 nodes. Fo
 
 ## Changed Goals
 We thought Sterling would serve a larger role in our project. Unfortunately we were not able to make it work with time variation, which is what most of our files used. 
+We also couldn't find a way in our Alloy model to find the chromatic number or chromatic indices of a graph, and therefore couldn't work with these properties that we wanted to prove in our target goal. This goal could have been seen as unrealistic due to the structural and relational focus of Alloy instead of an arithmetical focus.
 
 
 ## Installation
