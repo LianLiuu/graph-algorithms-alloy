@@ -1,5 +1,3 @@
-open util/integer
-
 sig Node {
   edges: set Node
 }
@@ -25,5 +23,4 @@ pred noCycle3[] { // Helper, ensures no cycles of 3
     v1->v2 in edges and v2->v3 in edges and v3->v1 in edges
 }
 
-
-run {} for exactly 4 Node, 9 Int
+run {} for exactly 4 Node, 5 Int
