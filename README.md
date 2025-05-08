@@ -18,3 +18,17 @@ Our target goal will be to extend our vertex coloring model and create a model o
 
 ## Reach
 As a reach goal, we will attempt to use Alloy to find a Hamiltonian cycle for a given graph. These are cycles which go through every vertex of a graph only once. Through our implementation we will learn more about what types of graphs contain these cycles, which do not, and what characteristics cause a graph to contain a Hamiltonian cycle. We are using this as our reach goal since there is currently no efficient algorithm that can find a Hamiltonian cycle in all types of graphs. This means we will have to make choices about what algorithm we use, consider each one’s runtime, and possibly only look at smaller graphs or implement more than one algorithm. 
+
+
+## Tradeoffs and Limits
+One of the limitations of our model comes from our implementation of the greedy algorithm. We were not able to model the form that specifies that each node should be colored using the least used color that is available to it. As a result, our model is not guaranteed to find the optimal coloring, the one using a graph's chromatic number, every time. While in many cases it does, it's also completely possible for the greedy algorithm to use as many colors as there are nodes.
+The scope of our model only goes up to 10 nodes. Past this point, Alloy would take a long time to run. So we cannot prove anything past 10 nodes.
+
+
+## Changed Goals
+We thought Sterling would serve a larger role in our project. Unfortunately we were not able to make it work with time variation, which is what most of our files used. 
+
+
+## Installation
+To install Alloy, follow the instructions listed here: https://alloytools.org/download.html
+To install Sterling, follow the instructions listed here: https://sterling-js.github.io/download/
